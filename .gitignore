@@ -1,0 +1,4 @@
+aiops/
+__pycache__/
+*.pyc
+.env

@@ -1,0 +1,9 @@
+uvicron
+fastapi
+pydantic
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+streamlit
