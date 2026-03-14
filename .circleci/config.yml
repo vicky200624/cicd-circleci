@@ -36,6 +36,11 @@ steps:
       name: Build Docker Image
       command: |
         docker build -t aiops-monitor .
+
+  - run:
+      name: Test Docker Container
+      command: |
+        docker run --rm aiops-monitor python -c "import fastapi"
 ```
 
 workflows:
