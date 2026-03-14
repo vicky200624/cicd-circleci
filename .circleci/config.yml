@@ -13,19 +13,19 @@ steps:
       name: Create virtual environment
       command: |
         python -m venv venv
-        source venv/bin/activate
+        . venv/bin/activate
         pip install --upgrade pip
 
   - run:
       name: Install dependencies
       command: |
-        source venv/bin/activate
+        . venv/bin/activate
         pip install -r requirements.txt
 
   - run:
-      name: Test FastAPI
+      name: Test imports
       command: |
-        source venv/bin/activate
+        . venv/bin/activate
         python -c "import fastapi"
         python -c "import pandas"
         python -c "import sklearn"
@@ -33,14 +33,9 @@ steps:
   - setup_remote_docker
 
   - run:
-      name: Build Docker image
+      name: Build Docker Image
       command: |
         docker build -t aiops-monitor .
-
-  - run:
-      name: Run Container
-      command: |
-        docker run -d -p 8001:8000 -p 8501:8501 aiops-monitor
 ```
 
 workflows:
