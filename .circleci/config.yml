@@ -35,7 +35,7 @@ jobs:
 
       - run:
           name: Push Docker Image
-          command: docker push $DOCKER_USER_$IMAGE_NAME:latest
+          command: docker push $DOCKER_USER/aiops-monitor:latest
 
 workflows:
   version: 2
