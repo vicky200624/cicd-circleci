@@ -1,51 +1,51 @@
 version: 2.1
 
 jobs:
-build:
-docker:
-- image: cimg/python:3.12
+  build:
+    docker:
+      - image: cimg/python:3.12
 
-```
-steps:
-  - checkout
+    environment:
+      IMAGE_NAME: aiops-monitor
 
-  - run:
-      name: Install dependencies
-      command: |
-        pip install --upgrade pip
-        pip install -r requirements.txt
+    steps:
+      - checkout
 
-  - run:
-      name: Run basic test
-      command: |
-        python -c "import fastapi, pandas, sklearn"
+      - run:
+          name: Install dependencies
+          command: |
+            pip install -r requirements.txt
 
-  - setup_remote_docker:
-      docker_layer_caching: true
+      - run:
+          name: Run basic test
+          command: |
+            python -c "import fastapi, pandas, sklearn"
 
-  - run:
-      name: Build Docker Image
-      command: |
-        docker build -t aiops-monitor .
+      - setup_remote_docker:
+          docker_layer_caching: true
 
-  - run:
-      name: Login to DockerHub
-      command: |
-        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+      - run:
+          name: Build Docker Image
+          command: |
+            docker build -t $IMAGE_NAME .
 
-  - run:
-      name: Tag Docker Image
-      command: |
-        docker tag aiops-monitor $DOCKER_USER/aiops-monitor:latest
+      - run:
+          name: Login to DockerHub
+          command: |
+            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
 
-  - run:
-      name: Push Docker Image
-      command: |
-        docker push $DOCKER_USER/aiops-monitor:latest
-```
+      - run:
+          name: Tag Docker Image
+          command: |
+            docker tag $IMAGE_NAME $DOCKER_USER/$IMAGE_NAME:latest
+
+      - run:
+          name: Push Docker Image
+          command: |
+            docker push $DOCKER_USER/$IMAGE_NAME:latest
 
 workflows:
-version: 2
-build_and_push:
-jobs:
-- build
+  version: 2
+  build_and_push:
+    jobs:
+      - build
