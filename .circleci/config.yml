@@ -35,6 +35,10 @@ jobs:
           name: Build Docker image
           command: |
             docker build -t aiops-monitor .
+       - run: 
+           name: Run Container 
+           command: | 
+             docker run -d -p 8001:8000 -p 8501:8501 aiops-monitor
 
 workflows:
   version: 2
