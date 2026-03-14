@@ -1,47 +1,50 @@
 version: 2.1
 
 jobs:
-  build:
-    docker:
-      - image: cimg/python:3.12
+build:
+docker:
+- image: cimg/python:3.12
 
-    steps:
-      - checkout
+```
+steps:
+  - checkout
 
-      - run:
-          name: Create virtual environment
-          command: |
-            python -m venv venv
-            source venv/bin/activate
-            pip install --upgrade pip
+  - run:
+      name: Create virtual environment
+      command: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install --upgrade pip
 
-      - run:
-          name: Install dependencies
-          command: |
-            source venv/bin/activate
-            pip install -r requirements.txt
+  - run:
+      name: Install dependencies
+      command: |
+        source venv/bin/activate
+        pip install -r requirements.txt
 
-      - run:
-          name: Test FastAPI
-          command: |
-            source venv/bin/activate
-            python -c "import fastapi"
-            python -c "import pandas"
-            python -c "import sklearn"
+  - run:
+      name: Test FastAPI
+      command: |
+        source venv/bin/activate
+        python -c "import fastapi"
+        python -c "import pandas"
+        python -c "import sklearn"
 
-      - setup_remote_docker
+  - setup_remote_docker
 
-      - run:
-          name: Build Docker image
-          command: |
-            docker build -t aiops-monitor .
-       - run: 
-           name: Run Container 
-           command: | 
-             docker run -d -p 8001:8000 -p 8501:8501 aiops-monitor
+  - run:
+      name: Build Docker image
+      command: |
+        docker build -t aiops-monitor .
+
+  - run:
+      name: Run Container
+      command: |
+        docker run -d -p 8001:8000 -p 8501:8501 aiops-monitor
+```
 
 workflows:
-  version: 2
-  build_pipeline:
-    jobs:
-      - build
+version: 2
+build_pipeline:
+jobs:
+- build
