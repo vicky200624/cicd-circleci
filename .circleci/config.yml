@@ -2,6 +2,7 @@ version: 2.1
 
 jobs:
   build:
+    
     docker:
       - image: cimg/python:3.12
     steps:
@@ -30,8 +31,8 @@ jobs:
             docker tag aiops-monitor $DOCKER_USER/aiops-monitor:latest
             docker push $DOCKER_USER/aiops-monitor:latest
 
-workflows:
   version: 2
   build_and_push:
     jobs:
+      - build
       - build
