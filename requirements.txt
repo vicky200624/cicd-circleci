@@ -1,4 +1,4 @@
-uvicron
+uvicorn
 fastapi
 pydantic
 pandas
